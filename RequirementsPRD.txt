@@ -1,0 +1,187 @@
+Hospital Patient Care Management System (HPCMS)
+Product Requirements Document (PRD)
+Version: 1.0
+Date: 12 Nov 2025
+Course: Data Structures & Algorithms (C++)
+
+1. Overview
+The Hospital Patient Care Management System (HPCMS) is a console-based C++ application that simulates peak-hour operations in a hospital. The system showcases the correct use of fundamental data structures (Queue, Stack, Priority Queue, Circular Queue) to manage patients, medical supplies, emergency cases, and ambulance dispatching.
+
+The system is built by a team of four students. Each student owns one operational role and implements three functionalities using a specific core data structure. All modules are integrated into a single menu-driven program.
+
+2. Objectives
+- Demonstrate practical understanding of custom-built data structures (without STL containers).
+- Map real-world hospital workflows to appropriate data structures and algorithms.
+- Develop readable, modular, and maintainable C++ code.
+- Provide an integrated system that supports multiple roles through a single interface.
+- Prepare students to justify design decisions in an individual recorded demonstration.
+
+3. In-Scope
+- Single C++ console application with a main menu and submenus per role.
+- Four functional modules:
+  1) Patient Admission Clerk
+  2) Medical Supply Manager
+  3) Emergency Department Officer
+  4) Ambulance Dispatcher
+- Custom implementation of the following data structures:
+  - Queue (array or linked list)
+  - Stack (array or linked list)
+  - Priority Queue (e.g., array/heap-based or ordered list)
+  - Circular Queue (array-based)
+- Basic persistence via in-memory data structures (no database required).
+- Optional simple file I/O (.txt or .csv) if the team decides to persist data during runtime.
+
+4. Out-of-Scope
+- Graphical User Interface (GUI) frameworks.
+- Networking or multi-user support.
+- Use of C++ STL containers such as std::vector, std::list, std::queue, std::stack, std::priority_queue.
+- Real-time integration with hospital systems or external APIs.
+
+5. Stakeholders and Roles
+- Lecturer / Examiner: Evaluates correctness, design, code quality, and explanation.
+- Students (4 team members): Each owns one role/module.
+  - Role A: Patient Admission Clerk – Queue
+  - Role B: Medical Supply Manager – Stack
+  - Role C: Emergency Department Officer – Priority Queue
+  - Role D: Ambulance Dispatcher – Circular Queue
+
+6. System-Level Requirements
+
+6.1 Functional Requirements (Global)
+FR-G1: The system shall display a main menu that allows the user to select one of the four roles or exit the program.
+FR-G2: The system shall route the user to a role-specific submenu after the role is selected.
+FR-G3: The system shall validate user input (e.g., menu choices) and show appropriate error messages.
+FR-G4: The system shall loop back to the relevant menu after completing an operation, until the user chooses to go back or exit.
+FR-G5: The system shall be implemented entirely in C++ using custom-built data structures.
+
+6.2 Non-Functional Requirements
+NFR-1: Usability – Menus, prompts, and messages shall be clear and user-friendly (no cryptic abbreviations).
+NFR-2: Reliability – Operations shall handle invalid input gracefully (e.g., dequeue/pop on empty structures).
+NFR-3: Performance – Basic operations (enqueue, dequeue, push, pop, insert, extract) should run in O(1) or O(log n) as appropriate.
+NFR-4: Maintainability – The code shall be modular, with separate header (.hpp) and source (.cpp) files for each data structure and role.
+NFR-5: Readability – Code shall follow consistent indentation and naming conventions, with comments describing major functions and structures.
+NFR-6: Portability – The program shall compile and run on the lab environment C++ compiler (e.g., g++ or similar).
+
+7. Module Requirements
+
+7.1 Patient Admission Clerk (Queue)
+Core Data Structure: Queue (FIFO)
+
+FR-P1: The system shall allow the user to admit a patient by entering at least:
+       - Patient ID
+       - Patient Name
+       - Condition Type (e.g., General, Surgery, Maternity)
+FR-P2: The system shall store each new patient at the rear of the queue.
+FR-P3: The system shall discharge the earliest admitted patient (front of the queue) when requested.
+FR-P4: The system shall show an appropriate message if discharge is requested when no patients are available.
+FR-P5: The system shall display the current queue of patients in arrival order (front to rear).
+
+Data Structure Requirements:
+DS-PQ1: Implement a queue using an array or linked list with front and rear indicators.
+DS-PQ2: Provide operations: enqueue, dequeue, isEmpty, isFull (if array-based), and display.
+
+7.2 Medical Supply Manager (Stack)
+Core Data Structure: Stack (LIFO)
+
+FR-S1: The system shall allow adding a new medical supply entry with:
+       - Supply Type (e.g., Mask, Glove, Medicine)
+       - Quantity
+       - Batch/Reference ID
+FR-S2: The system shall push each new supply entry onto the top of the stack.
+FR-S3: The system shall “use” the last added supply by popping from the top of the stack.
+FR-S4: The system shall show an appropriate message if a pop is requested when the stack is empty.
+FR-S5: The system shall display the current list of supplies from top to bottom.
+
+Data Structure Requirements:
+DS-SS1: Implement a stack using an array or linked list with a top index/pointer.
+DS-SS2: Provide operations: push, pop, peek/top, isEmpty, isFull (if array-based), and display.
+
+7.3 Emergency Department Officer (Priority Queue)
+Core Data Structure: Priority Queue
+
+FR-E1: The system shall allow logging a new emergency case with:
+       - Case ID or Patient Name
+       - Case Type (e.g., Accident, Cardiac, Trauma)
+       - Priority Level (e.g., integer where higher value = more critical)
+FR-E2: The system shall insert each new case into the priority queue based on priority.
+FR-E3: The system shall process the most critical case by removing the highest-priority entry.
+FR-E4: If two cases share the same priority, the system may process the earlier inserted case first (tie-breaking rule).
+FR-E5: The system shall display all pending emergency cases in descending order of priority.
+FR-E6: The system shall show an appropriate message if processing is requested when there are no emergency cases.
+
+Data Structure Requirements:
+DS-EP1: Implement a priority queue using either:
+        - Binary heap (array-based), or
+        - Sorted array/list (insertion keeps order).
+DS-EP2: Provide operations: insert, extractHighestPriority, peek, isEmpty, and display.
+DS-EP3: Document chosen time complexity and design trade-offs for use in the presentation.
+
+7.4 Ambulance Dispatcher (Circular Queue)
+Core Data Structure: Circular Queue
+
+FR-A1: The system shall allow registering a new ambulance with:
+       - Ambulance ID
+       - Driver/Team Name
+       - Status or Region (optional)
+FR-A2: The system shall store ambulances in a circular queue to represent their shift rotation.
+FR-A3: The system shall “rotate” the shift by moving the current front ambulance to the rear, making the next ambulance the new front.
+FR-A4: The system shall display the current circular schedule of ambulances in order of dispatch.
+FR-A5: The system shall show an appropriate message when rotation is requested but there are no ambulances registered.
+
+Data Structure Requirements:
+DS-AQ1: Implement a circular queue using an array with front and rear indices and modulo arithmetic.
+DS-AQ2: Provide operations: enqueue, dequeue, rotate (dequeue then enqueue), isEmpty, isFull, and display.
+
+8. User Interface & Interaction Flow
+
+8.1 Main Menu (Example)
+1. Patient Admission Clerk
+2. Medical Supply Manager
+3. Emergency Department Officer
+4. Ambulance Dispatcher
+5. Exit
+
+8.2 Submenu Example (Patient Admission Clerk)
+1. Admit Patient
+2. Discharge Patient
+3. View Patient Queue
+4. Back to Main Menu
+
+Similar submenus shall be provided for the other three roles.
+
+9. Data Validation & Error Handling
+- The system shall validate menu choices to ensure they are within the allowed range.
+- The system shall prevent operations on empty structures (e.g., pop from empty stack, dequeue from empty queue) and report this to the user.
+- The system shall handle simple type mismatches (e.g., non-numeric input where numbers are expected) using safe input reading and clearing the input buffer where possible.
+
+10. Implementation Constraints
+- Programming Language: C++
+- No STL containers for the core data structures. Arrays and manually implemented nodes (for linked lists) are allowed.
+- Project Structure (recommended):
+  - main.cpp – main menu and high-level control flow
+  - queue.hpp / queue.cpp – generic queue implementation (or specific patient queue)
+  - stack.hpp / stack.cpp – supply stack implementation
+  - priorityqueue.hpp / priorityqueue.cpp – emergency priority queue implementation
+  - circularqueue.hpp / circularqueue.cpp – ambulance circular queue implementation
+  - role-specific files (optional) such as patient_module.cpp, supply_module.cpp, etc.
+
+11. Testing Requirements
+- Each role owner shall prepare test scenarios for:
+  - Normal operations (typical enqueue/push/insert, etc.)
+  - Boundary conditions (e.g., empty structure, full array-based structure).
+  - Example sequences that show correct ordering/priority behavior.
+- Manual testing using console input/output is sufficient for this assignment.
+
+12. Success Criteria
+The assignment is considered successful if:
+- All four roles are implemented and accessible via a single integrated menu.
+- Each module uses the correct, custom-implemented data structure.
+- The system behaves correctly for representative input sequences and edge cases.
+- Each team member can clearly explain:
+  - Their chosen data structure
+  - How it works (operations and complexity)
+  - Why it is appropriate for their role
+- The project is submitted as a single ZIP file with all required source files.
+- Each member submits an individual recording demonstrating their part of the system and answering Q&A.
+
+End of PRD

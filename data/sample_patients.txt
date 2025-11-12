@@ -1,0 +1,9 @@
+# Sample Patient Data
+# Format: PatientID,Name,ConditionType
+
+101,John Smith,General
+102,Sarah Johnson,Surgery
+103,Michael Brown,Maternity
+104,Emily Davis,General
+105,David Wilson,Surgery
+
