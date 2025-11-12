@@ -1,35 +1,134 @@
 #include "Queue.hpp"
 #include <iostream>
+#include <iomanip>
 
+// Default constructor - creates queue with MAX_SIZE capacity
 Queue::Queue() {
-    // TODO: Initialize queue
+    capacity = MAX_SIZE;
+    patients = new Patient[capacity];
+    front = -1;
+    rear = -1;
+    size = 0;
 }
 
+// Parameterized constructor - creates queue with custom capacity
+Queue::Queue(int cap) {
+    capacity = cap;
+    patients = new Patient[capacity];
+    front = -1;
+    rear = -1;
+    size = 0;
+}
+
+// Destructor - frees dynamically allocated memory
 Queue::~Queue() {
-    // TODO: Clean up resources
+    delete[] patients;
 }
 
+// Add patient to the rear of the queue (FIFO)
 void Queue::enqueue(const Patient& patient) {
-    // TODO: Add patient to rear of queue
+    if (isFull()) {
+        std::cout << "\n[ERROR] Queue is full! Cannot admit more patients." << std::endl;
+        return;
+    }
+    
+    // If queue is empty, set front to 0
+    if (isEmpty()) {
+        front = 0;
+    }
+    
+    // Move rear forward and add patient
+    rear++;
+    patients[rear] = patient;
+    size++;
+    
+    std::cout << "\n[SUCCESS] Patient admitted successfully!" << std::endl;
+    std::cout << "Patient " << patient.getPatientName() << " (ID: " << patient.getPatientID() 
+              << ") added to queue." << std::endl;
 }
 
+// Remove and return patient from the front of the queue (FIFO)
 Patient Queue::dequeue() {
-    // TODO: Remove and return patient from front of queue
-    return Patient();
+    if (isEmpty()) {
+        std::cout << "\n[ERROR] Queue is empty! No patients to discharge." << std::endl;
+        return Patient();  // Return empty patient
+    }
+    
+    // Get patient at front
+    Patient dischargedPatient = patients[front];
+    
+    // Move front forward
+    front++;
+    size--;
+    
+    // Reset queue if it becomes empty
+    if (isEmpty()) {
+        front = -1;
+        rear = -1;
+    }
+    
+    return dischargedPatient;
 }
 
+// Peek at the front patient without removing
+Patient Queue::getFront() const {
+    if (isEmpty()) {
+        std::cout << "\n[ERROR] Queue is empty!" << std::endl;
+        return Patient();
+    }
+    return patients[front];
+}
+
+// Check if queue is empty
 bool Queue::isEmpty() const {
-    // TODO: Check if queue is empty
-    return true;
+    return (size == 0);
 }
 
+// Check if queue is full
 bool Queue::isFull() const {
-    // TODO: Check if queue is full (for array-based implementation)
-    return false;
+    return (size == capacity);
 }
 
+// Get current size of queue
+int Queue::getSize() const {
+    return size;
+}
+
+// Display all patients in the queue
 void Queue::display() const {
-    // TODO: Display all patients in queue
-    std::cout << "Patient Queue:" << std::endl;
+    if (isEmpty()) {
+        std::cout << "\n[INFO] Queue is empty. No patients waiting." << std::endl;
+        return;
+    }
+    
+    std::cout << "\n========================================" << std::endl;
+    std::cout << "        PATIENT QUEUE STATUS" << std::endl;
+    std::cout << "========================================" << std::endl;
+    std::cout << "Total Patients Waiting: " << size << "/" << capacity << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+    std::cout << std::left << std::setw(8) << "Position" 
+              << std::setw(12) << "Patient ID" 
+              << std::setw(20) << "Name" 
+              << std::setw(15) << "Condition" << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+    
+    // Display patients from front to rear
+    int position = 1;
+    for (int i = front; i <= rear; i++) {
+        std::cout << std::left << std::setw(8) << position
+                  << std::setw(12) << patients[i].getPatientID()
+                  << std::setw(20) << patients[i].getPatientName()
+                  << std::setw(15) << patients[i].getConditionType() << std::endl;
+        position++;
+    }
+    std::cout << "========================================" << std::endl;
+}
+
+// Clear the entire queue
+void Queue::clear() {
+    front = -1;
+    rear = -1;
+    size = 0;
+    std::cout << "\n[INFO] Queue cleared successfully." << std::endl;
 }
 
