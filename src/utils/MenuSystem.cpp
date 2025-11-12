@@ -4,7 +4,7 @@
 
 void MenuSystem::displayMainMenu() {
     std::cout << "\n========================================" << std::endl;
-    std::cout << "  Hospital Patient Care Management System" << std::endl;
+    std::cout << "Hospital Patient Care Management System" << std::endl;
     std::cout << "========================================" << std::endl;
     std::cout << "1. Patient Admission Clerk" << std::endl;
     std::cout << "2. Medical Supply Manager" << std::endl;

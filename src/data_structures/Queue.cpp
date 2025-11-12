@@ -101,27 +101,27 @@ void Queue::display() const {
         return;
     }
     
-    std::cout << "\n========================================" << std::endl;
-    std::cout << "        PATIENT QUEUE STATUS" << std::endl;
-    std::cout << "========================================" << std::endl;
+    std::cout << "\n==========================================================" << std::endl;
+    std::cout << "              PATIENT QUEUE STATUS" << std::endl;
+    std::cout << "==========================================================" << std::endl;
     std::cout << "Total Patients Waiting: " << size << "/" << capacity << std::endl;
-    std::cout << "----------------------------------------" << std::endl;
-    std::cout << std::left << std::setw(8) << "Position" 
+    std::cout << "==========================================================" << std::endl;
+    std::cout << std::left << std::setw(10) << "Position" 
               << std::setw(12) << "Patient ID" 
               << std::setw(20) << "Name" 
-              << std::setw(15) << "Condition" << std::endl;
-    std::cout << "----------------------------------------" << std::endl;
+              << std::setw(16) << "Condition" << std::endl;
+    std::cout << "==========================================================" << std::endl;
     
     // Display patients from front to rear
     int position = 1;
     for (int i = front; i <= rear; i++) {
-        std::cout << std::left << std::setw(8) << position
+        std::cout << std::left << std::setw(10) << position
                   << std::setw(12) << patients[i].getPatientID()
                   << std::setw(20) << patients[i].getPatientName()
-                  << std::setw(15) << patients[i].getConditionType() << std::endl;
+                  << std::setw(16) << patients[i].getConditionType() << std::endl;
         position++;
     }
-    std::cout << "========================================" << std::endl;
+    std::cout << "==========================================================" << std::endl;
 }
 
 // Clear the entire queue
