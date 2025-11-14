@@ -15,6 +15,7 @@ public:
     void addSupply();
     void useSupply();
     void viewSupplies();
+    void viewTopSupply();
 };
 
 #endif // MEDICALSUPPLYMANAGER_HPP

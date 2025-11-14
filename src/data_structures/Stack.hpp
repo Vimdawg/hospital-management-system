@@ -5,10 +5,14 @@
 
 class Stack {
 private:
-    // TODO: Implement stack data structure
+    static const int MAX_SIZE = 100;  // Maximum stack capacity
+    MedicalSupply* supplies;          // Dynamic array to store supplies
+    int top;                          // Index of top element
+    int capacity;                     // Maximum capacity of stack
 
 public:
     Stack();
+    Stack(int cap);
     ~Stack();
     
     void push(const MedicalSupply& supply);
@@ -16,7 +20,9 @@ public:
     MedicalSupply peek() const;
     bool isEmpty() const;
     bool isFull() const;
+    int getSize() const;
     void display() const;
+    void clear();
 };
 
 #endif // STACK_HPP
