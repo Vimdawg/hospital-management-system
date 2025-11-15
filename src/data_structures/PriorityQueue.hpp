@@ -20,12 +20,10 @@ public:
     
     void insert(const EmergencyCase& emergencyCase);
     EmergencyCase extractHighestPriority();
-    EmergencyCase peek() const;
     bool isEmpty() const;
     bool isFull() const;
     int getSize() const;
     void display() const;
-    void clear();
 };
 
 #endif // PRIORITYQUEUE_HPP

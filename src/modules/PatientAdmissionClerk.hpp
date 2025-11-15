@@ -6,6 +6,7 @@
 class PatientAdmissionClerk {
 private:
     Queue patientQueue;
+    int nextPatientID;
 
 public:
     PatientAdmissionClerk();
@@ -15,7 +16,6 @@ public:
     void admitPatient();
     void dischargePatient();
     void viewPatientQueue();
-    void viewNextPatient();
 };
 
 #endif // PATIENTADMISSIONCLERK_HPP

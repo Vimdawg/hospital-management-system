@@ -5,7 +5,6 @@
 #include "modules/EmergencyDeptOfficer.hpp"
 #include "modules/AmbulanceDispatcher.hpp"
 #include "utils/MenuSystem.hpp"
-#include "utils/InputValidator.hpp"
 
 int main() {
     // Create module instances

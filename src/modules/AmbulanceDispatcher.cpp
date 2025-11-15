@@ -14,12 +14,11 @@ void AmbulanceDispatcher::run() {
         std::cout << "       AMBULANCE DISPATCHER MODULE" << std::endl;
         std::cout << "========================================" << std::endl;
         std::cout << "1. Register Ambulance" << std::endl;
-        std::cout << "2. Rotate Shift" << std::endl;
-        std::cout << "3. View Ambulance Schedule" << std::endl;
-        std::cout << "4. View Current On-Duty" << std::endl;
-        std::cout << "5. Back to Main Menu" << std::endl;
+        std::cout << "2. Rotate Ambulance Shift" << std::endl;
+        std::cout << "3. Show Current Ambulance Rotation" << std::endl;
+        std::cout << "4. Back to Main Menu" << std::endl;
         std::cout << "========================================" << std::endl;
-        std::cout << "Enter your choice (1-5): ";
+        std::cout << "Enter your choice (1-4): ";
         
         // Input validation
         if (!(std::cin >> choice)) {
@@ -36,21 +35,18 @@ void AmbulanceDispatcher::run() {
                 registerAmbulance();
                 break;
             case 2:
-                rotateShift();
+                rotateAmbulanceShift();
                 break;
             case 3:
-                viewAmbulanceSchedule();
+                showCurrentRotation();
                 break;
             case 4:
-                viewCurrentOnDuty();
-                break;
-            case 5:
                 std::cout << "\n[INFO] Returning to main menu..." << std::endl;
                 break;
             default:
-                std::cout << "\n[ERROR] Invalid choice. Please select 1-5." << std::endl;
+                std::cout << "\n[ERROR] Invalid choice. Please select 1-4." << std::endl;
         }
-    } while(choice != 5);
+    } while(choice != 4);
 }
 
 void AmbulanceDispatcher::registerAmbulance() {
@@ -58,75 +54,61 @@ void AmbulanceDispatcher::registerAmbulance() {
     std::cout << "        REGISTER NEW AMBULANCE" << std::endl;
     std::cout << "========================================" << std::endl;
     
-    std::string ambulanceID;
-    std::string driverName;
-    std::string region;
+    std::string licensePlate;
     
-    // Get Ambulance ID
-    std::cout << "Enter Ambulance ID (e.g., AMB001, AMB002): ";
-    std::getline(std::cin, ambulanceID);
-    
-    // Get Driver Name
-    std::cout << "Enter Driver/Team Name: ";
-    std::getline(std::cin, driverName);
-    
-    // Get Region
-    std::cout << "Enter Region (e.g., North, South, East, West, Central): ";
-    std::getline(std::cin, region);
+    // Get License Plate
+    std::cout << "Enter License Plate Number: ";
+    std::getline(std::cin, licensePlate);
     
     // Create Ambulance object and enqueue to circular queue
-    Ambulance newAmbulance(ambulanceID, driverName, region);
+    Ambulance newAmbulance(licensePlate);
     ambulanceQueue.enqueue(newAmbulance);
     
-    std::cout << "\nCurrent schedule size: " << ambulanceQueue.getSize() << " ambulances." << std::endl;
+    std::cout << "\n[SUCCESS] Ambulance " << licensePlate << " registered successfully!" << std::endl;
+    std::cout << "Total ambulances in rotation: " << ambulanceQueue.getSize() << std::endl;
 }
 
-void AmbulanceDispatcher::rotateShift() {
+void AmbulanceDispatcher::rotateAmbulanceShift() {
     std::cout << "\n========================================" << std::endl;
-    std::cout << "          ROTATE AMBULANCE SHIFT" << std::endl;
+    std::cout << "       ROTATE AMBULANCE SHIFT" << std::endl;
     std::cout << "========================================" << std::endl;
     
     if (ambulanceQueue.isEmpty()) {
-        std::cout << "\n[INFO] No ambulances in schedule to rotate." << std::endl;
+        std::cout << "\n[INFO] No ambulances in rotation to rotate." << std::endl;
         return;
     }
     
     // Show current on-duty before rotation
     Ambulance currentOnDuty = ambulanceQueue.getFront();
-    std::cout << "\nCurrent on-duty: " << currentOnDuty.getAmbulanceID() 
-              << " (" << currentOnDuty.getDriverName() << ")" << std::endl;
+    std::cout << "\nCurrent 1st in queue: " << currentOnDuty.getLicensePlate() << std::endl;
     
     // Rotate the shift
     ambulanceQueue.rotate();
     
-    std::cout << "\nAmbulances in rotation: " << ambulanceQueue.getSize() << std::endl;
-}
-
-void AmbulanceDispatcher::viewAmbulanceSchedule() {
-    std::cout << "\n========================================" << std::endl;
-    std::cout << "     VIEW FULL AMBULANCE SCHEDULE" << std::endl;
-    std::cout << "========================================" << std::endl;
+    // Show new on-duty after rotation
+    Ambulance newOnDuty = ambulanceQueue.getFront();
+    std::cout << "New 1st in queue: " << newOnDuty.getLicensePlate() << std::endl;
     
-    ambulanceQueue.display();
+    std::cout << "\n[SUCCESS] Ambulance shift rotated successfully!" << std::endl;
+    std::cout << "Total ambulances in rotation: " << ambulanceQueue.getSize() << std::endl;
 }
 
-void AmbulanceDispatcher::viewCurrentOnDuty() {
+void AmbulanceDispatcher::showCurrentRotation() {
     std::cout << "\n========================================" << std::endl;
-    std::cout << "       CURRENT ON-DUTY AMBULANCE" << std::endl;
+    std::cout << "    CURRENT AMBULANCE ROTATION" << std::endl;
     std::cout << "========================================" << std::endl;
     
     if (ambulanceQueue.isEmpty()) {
-        std::cout << "\n[INFO] No ambulances in schedule." << std::endl;
+        std::cout << "\n[INFO] No ambulances in rotation schedule." << std::endl;
         return;
     }
     
-    Ambulance currentAmbulance = ambulanceQueue.getFront();
-    std::cout << "\nCurrently on duty:" << std::endl;
+    std::cout << "\nTotal ambulances in rotation: " << ambulanceQueue.getSize() << std::endl;
+    std::cout << "\nRotation order (1st is currently on duty):" << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+    
+    ambulanceQueue.display();
+    
     std::cout << "========================================" << std::endl;
-    std::cout << "Ambulance ID: " << currentAmbulance.getAmbulanceID() << std::endl;
-    std::cout << "Driver/Team: " << currentAmbulance.getDriverName() << std::endl;
-    std::cout << "Region: " << currentAmbulance.getRegion() << std::endl;
-    std::cout << "========================================" << std::endl;
-    std::cout << "[TIP] Use 'Rotate Shift' to switch to next ambulance" << std::endl;
+    std::cout << "[TIP] Use 'Rotate Ambulance Shift' to move to next ambulance" << std::endl;
 }
-

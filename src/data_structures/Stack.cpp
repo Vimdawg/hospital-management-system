@@ -31,11 +31,6 @@ void Stack::push(const MedicalSupply& supply) {
     // Increment top and add supply
     top++;
     supplies[top] = supply;
-    
-    std::cout << "\n[SUCCESS] Supply added successfully!" << std::endl;
-    std::cout << "Supply: " << supply.getSupplyType() 
-              << " (Qty: " << supply.getQuantity() 
-              << ", Batch: " << supply.getBatchID() << ") added to stack." << std::endl;
 }
 
 // Pop (remove and return) supply from the top of the stack (LIFO)
@@ -52,15 +47,6 @@ MedicalSupply Stack::pop() {
     top--;
     
     return usedSupply;
-}
-
-// Peek at the top supply without removing it
-MedicalSupply Stack::peek() const {
-    if (isEmpty()) {
-        std::cout << "\n[ERROR] Stack is empty!" << std::endl;
-        return MedicalSupply();
-    }
-    return supplies[top];
 }
 
 // Check if stack is empty
@@ -91,26 +77,20 @@ void Stack::display() const {
     std::cout << "Total Supplies in Stack: " << getSize() << "/" << capacity << std::endl;
     std::cout << "==========================================================" << std::endl;
     std::cout << std::left << std::setw(10) << "Position" 
-              << std::setw(20) << "Supply Type" 
-              << std::setw(12) << "Quantity" 
-              << std::setw(16) << "Batch ID" << std::endl;
+              << std::setw(10) << "Item ID" 
+              << std::setw(18) << "Supply Type" 
+              << std::setw(10) << "Quantity" 
+              << std::setw(10) << "Batch" << std::endl;
     std::cout << "==========================================================" << std::endl;
     
     // Display supplies from top to bottom
-    std::cout << std::left << std::setw(10) << "TOP ↓" << std::endl;
     for (int i = top; i >= 0; i--) {
         std::cout << std::left << std::setw(10) << (top - i + 1)
-                  << std::setw(20) << supplies[i].getSupplyType()
-                  << std::setw(12) << supplies[i].getQuantity()
-                  << std::setw(16) << supplies[i].getBatchID() << std::endl;
+                  << std::setw(10) << supplies[i].getItemID()
+                  << std::setw(18) << supplies[i].getSupplyType()
+                  << std::setw(10) << supplies[i].getQuantity()
+                  << std::setw(10) << supplies[i].getBatchNumber() << std::endl;
     }
     std::cout << "==========================================================" << std::endl;
-    std::cout << "[NOTE] Top supply will be used first (LIFO - Last In, First Out)" << std::endl;
-}
-
-// Clear the entire stack
-void Stack::clear() {
-    top = -1;
-    std::cout << "\n[INFO] Stack cleared successfully." << std::endl;
 }
 

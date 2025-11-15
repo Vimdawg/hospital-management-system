@@ -1,9 +1,0 @@
-# Sample Medical Supply Data
-# Format: SupplyType,Quantity,BatchID
-
-Mask,500,BATCH001
-Glove,1000,BATCH002
-Medicine,200,BATCH003
-Syringe,750,BATCH004
-Bandage,300,BATCH005
-

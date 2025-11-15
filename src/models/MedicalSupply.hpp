@@ -5,21 +5,24 @@
 
 class MedicalSupply {
 private:
+    int itemID;
     std::string supplyType;
     int quantity;
-    std::string batchID;
+    int batchNumber;
 
 public:
     MedicalSupply();
-    MedicalSupply(const std::string& type, int qty, const std::string& batch);
+    MedicalSupply(int id, const std::string& type, int qty, int batch);
     
+    int getItemID() const;
     std::string getSupplyType() const;
     int getQuantity() const;
-    std::string getBatchID() const;
+    int getBatchNumber() const;
     
+    void setItemID(int id);
     void setSupplyType(const std::string& type);
     void setQuantity(int qty);
-    void setBatchID(const std::string& batch);
+    void setBatchNumber(int batch);
     
     void display() const;
 };

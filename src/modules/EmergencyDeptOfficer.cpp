@@ -2,8 +2,9 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <sstream>
 
-EmergencyDeptOfficer::EmergencyDeptOfficer() {}
+EmergencyDeptOfficer::EmergencyDeptOfficer() : nextCaseID(1) {}
 
 EmergencyDeptOfficer::~EmergencyDeptOfficer() {}
 
@@ -16,10 +17,9 @@ void EmergencyDeptOfficer::run() {
         std::cout << "1. Log Emergency Case" << std::endl;
         std::cout << "2. Process Emergency Case" << std::endl;
         std::cout << "3. View All Emergency Cases" << std::endl;
-        std::cout << "4. View Next Critical Case" << std::endl;
-        std::cout << "5. Back to Main Menu" << std::endl;
+        std::cout << "4. Back to Main Menu" << std::endl;
         std::cout << "========================================" << std::endl;
-        std::cout << "Enter your choice (1-5): ";
+        std::cout << "Enter your choice (1-4): ";
         
         // Input validation
         if (!(std::cin >> choice)) {
@@ -42,15 +42,12 @@ void EmergencyDeptOfficer::run() {
                 viewEmergencyCases();
                 break;
             case 4:
-                viewNextCase();
-                break;
-            case 5:
                 std::cout << "\n[INFO] Returning to main menu..." << std::endl;
                 break;
             default:
-                std::cout << "\n[ERROR] Invalid choice. Please select 1-5." << std::endl;
+                std::cout << "\n[ERROR] Invalid choice. Please select 1-4." << std::endl;
         }
-    } while(choice != 5);
+    } while(choice != 4);
 }
 
 void EmergencyDeptOfficer::logEmergencyCase() {
@@ -58,16 +55,16 @@ void EmergencyDeptOfficer::logEmergencyCase() {
     std::cout << "        LOG NEW EMERGENCY CASE" << std::endl;
     std::cout << "========================================" << std::endl;
     
-    std::string caseID;
+    std::string patientName;
     std::string caseType;
     int priorityLevel;
     
-    // Get Case ID
-    std::cout << "Enter Case ID or Patient Name: ";
-    std::getline(std::cin, caseID);
+    // Get Patient Name
+    std::cout << "Enter Patient Name: ";
+    std::getline(std::cin, patientName);
     
     // Get Case Type
-    std::cout << "Enter Case Type (e.g., Accident, Cardiac, Trauma, Stroke): ";
+    std::cout << "Enter Type of Emergency (e.g., Accident, Cardiac, Trauma, Stroke): ";
     std::getline(std::cin, caseType);
     
     // Get Priority Level
@@ -85,11 +82,19 @@ void EmergencyDeptOfficer::logEmergencyCase() {
     }
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     
+    // Generate case ID
+    std::ostringstream caseIDStream;
+    caseIDStream << "EC" << nextCaseID;
+    std::string caseID = caseIDStream.str();
+    
     // Create EmergencyCase object and insert to priority queue
-    EmergencyCase newCase(caseID, caseType, priorityLevel);
+    EmergencyCase newCase(caseID, patientName, caseType, priorityLevel);
     emergencyQueue.insert(newCase);
     
-    std::cout << "\nCurrent queue size: " << emergencyQueue.getSize() << " emergency cases pending." << std::endl;
+    std::cout << "\n[SUCCESS] Emergency case logged with ID: " << caseID << std::endl;
+    nextCaseID++;  // Increment for next case
+    
+    std::cout << "Current queue size: " << emergencyQueue.getSize() << " emergency cases pending." << std::endl;
 }
 
 void EmergencyDeptOfficer::processEmergencyCase() {
@@ -110,6 +115,7 @@ void EmergencyDeptOfficer::processEmergencyCase() {
         std::cout << "\n[SUCCESS] Emergency case processed!" << std::endl;
         std::cout << "========================================" << std::endl;
         std::cout << "Case ID: " << processedCase.getCaseID() << std::endl;
+        std::cout << "Patient Name: " << processedCase.getPatientName() << std::endl;
         std::cout << "Case Type: " << processedCase.getCaseType() << std::endl;
         std::cout << "Priority Level: " << processedCase.getPriorityLevel() << std::endl;
         
@@ -135,32 +141,4 @@ void EmergencyDeptOfficer::viewEmergencyCases() {
     emergencyQueue.display();
 }
 
-void EmergencyDeptOfficer::viewNextCase() {
-    std::cout << "\n========================================" << std::endl;
-    std::cout << "       NEXT CRITICAL CASE (PEEK)" << std::endl;
-    std::cout << "========================================" << std::endl;
-    
-    if (emergencyQueue.isEmpty()) {
-        std::cout << "\n[INFO] No emergency cases pending." << std::endl;
-        return;
-    }
-    
-    EmergencyCase nextCase = emergencyQueue.peek();
-    std::cout << "\nNext case to be processed (highest priority):" << std::endl;
-    std::cout << "========================================" << std::endl;
-    std::cout << "Case ID: " << nextCase.getCaseID() << std::endl;
-    std::cout << "Case Type: " << nextCase.getCaseType() << std::endl;
-    std::cout << "Priority Level: " << nextCase.getPriorityLevel() << std::endl;
-    
-    // Show priority label
-    int priority = nextCase.getPriorityLevel();
-    std::string priorityLabel;
-    if (priority >= 9) priorityLabel = "CRITICAL";
-    else if (priority >= 7) priorityLabel = "HIGH";
-    else if (priority >= 5) priorityLabel = "MEDIUM";
-    else priorityLabel = "LOW";
-    
-    std::cout << "Priority Category: " << priorityLabel << std::endl;
-    std::cout << "========================================" << std::endl;
-}
 

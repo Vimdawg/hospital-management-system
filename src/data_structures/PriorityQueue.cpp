@@ -79,15 +79,6 @@ EmergencyCase PriorityQueue::extractHighestPriority() {
     return highestPriorityCase;
 }
 
-// Peek at the highest priority case without removing it
-EmergencyCase PriorityQueue::peek() const {
-    if (isEmpty()) {
-        std::cout << "\n[ERROR] Priority Queue is empty!" << std::endl;
-        return EmergencyCase();
-    }
-    return cases[0];  // Highest priority is always at index 0
-}
-
 // Check if priority queue is empty
 bool PriorityQueue::isEmpty() const {
     return (size == 0);
@@ -139,12 +130,5 @@ void PriorityQueue::display() const {
                   << std::setw(13) << cases[i].getPriorityLevel() << std::endl;
     }
     std::cout << "==========================================================" << std::endl;
-    std::cout << "[NOTE] Cases are processed by priority (highest first)" << std::endl;
-}
-
-// Clear the entire priority queue
-void PriorityQueue::clear() {
-    size = 0;
-    std::cout << "\n[INFO] Priority Queue cleared successfully." << std::endl;
 }
 

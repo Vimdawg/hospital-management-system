@@ -109,8 +109,9 @@ void Queue::display() const {
     std::cout << std::left << std::setw(10) << "Position" 
               << std::setw(12) << "Patient ID" 
               << std::setw(20) << "Name" 
+              << std::setw(18) << "IC Number"
               << std::setw(16) << "Condition" << std::endl;
-    std::cout << "==========================================================" << std::endl;
+    std::cout << "=======================================================================" << std::endl;
     
     // Display patients from front to rear
     int position = 1;
@@ -118,17 +119,10 @@ void Queue::display() const {
         std::cout << std::left << std::setw(10) << position
                   << std::setw(12) << patients[i].getPatientID()
                   << std::setw(20) << patients[i].getPatientName()
+                  << std::setw(18) << patients[i].getNationalIC()
                   << std::setw(16) << patients[i].getConditionType() << std::endl;
         position++;
     }
-    std::cout << "==========================================================" << std::endl;
-}
-
-// Clear the entire queue
-void Queue::clear() {
-    front = -1;
-    rear = -1;
-    size = 0;
-    std::cout << "\n[INFO] Queue cleared successfully." << std::endl;
+    std::cout << "=======================================================================" << std::endl;
 }
 

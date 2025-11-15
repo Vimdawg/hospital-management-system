@@ -43,11 +43,6 @@ void CircularQueue::enqueue(const Ambulance& ambulance) {
     
     ambulances[rear] = ambulance;
     size++;
-    
-    std::cout << "\n[SUCCESS] Ambulance registered successfully!" << std::endl;
-    std::cout << "Ambulance " << ambulance.getAmbulanceID() 
-              << " (Driver: " << ambulance.getDriverName() 
-              << ", Region: " << ambulance.getRegion() << ") added to schedule." << std::endl;
 }
 
 // Remove and return ambulance from the front of the circular queue
@@ -96,9 +91,9 @@ void CircularQueue::rotate() {
     ambulances[rear] = frontAmbulance;
     
     std::cout << "\n[SUCCESS] Shift rotated!" << std::endl;
-    std::cout << "Ambulance " << frontAmbulance.getAmbulanceID() 
+    std::cout << "Ambulance " << frontAmbulance.getLicensePlate() 
               << " moved to end of schedule." << std::endl;
-    std::cout << "Next on duty: " << ambulances[front].getAmbulanceID() << std::endl;
+    std::cout << "Next on duty: " << ambulances[front].getLicensePlate() << std::endl;
 }
 
 // Peek at the front ambulance without removing
@@ -138,36 +133,18 @@ void CircularQueue::display() const {
     std::cout << "Total Ambulances: " << size << "/" << capacity << std::endl;
     std::cout << "==========================================================" << std::endl;
     std::cout << std::left << std::setw(10) << "Position" 
-              << std::setw(15) << "Ambulance ID" 
-              << std::setw(20) << "Driver Name" 
-              << std::setw(13) << "Region" << std::endl;
+              << std::setw(20) << "License Plate" << std::endl;
     std::cout << "==========================================================" << std::endl;
     
     // Display ambulances from front to rear circularly
-    std::cout << std::left << std::setw(10) << "CURRENT ↓" << std::endl;
-    int position = 1;
     int index = front;
     
     for (int i = 0; i < size; i++) {
-        std::string posLabel = (i == 0) ? "ON DUTY" : std::to_string(position);
-        
-        std::cout << std::left << std::setw(10) << posLabel
-                  << std::setw(15) << ambulances[index].getAmbulanceID()
-                  << std::setw(20) << ambulances[index].getDriverName()
-                  << std::setw(13) << ambulances[index].getRegion() << std::endl;
+        std::cout << std::left << std::setw(10) << (i + 1)
+                  << std::setw(20) << ambulances[index].getLicensePlate() << std::endl;
         
         index = (index + 1) % capacity;  // Move circularly
-        position++;
     }
     std::cout << "==========================================================" << std::endl;
-    std::cout << "[NOTE] Use 'Rotate Shift' to move current ambulance to end" << std::endl;
-}
-
-// Clear the entire circular queue
-void CircularQueue::clear() {
-    front = -1;
-    rear = -1;
-    size = 0;
-    std::cout << "\n[INFO] Circular Queue cleared successfully." << std::endl;
 }
 

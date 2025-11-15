@@ -6,6 +6,7 @@
 class EmergencyDeptOfficer {
 private:
     PriorityQueue emergencyQueue;
+    int nextCaseID;
 
 public:
     EmergencyDeptOfficer();
@@ -15,7 +16,6 @@ public:
     void logEmergencyCase();
     void processEmergencyCase();
     void viewEmergencyCases();
-    void viewNextCase();
 };
 
 #endif // EMERGENCYDEPTOFFICER_HPP

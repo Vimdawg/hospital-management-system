@@ -5,21 +5,14 @@
 
 class Ambulance {
 private:
-    std::string ambulanceID;
-    std::string driverName;
-    std::string region;
+    std::string licensePlate;
 
 public:
     Ambulance();
-    Ambulance(const std::string& id, const std::string& driver, const std::string& reg);
+    Ambulance(const std::string& plate);
     
-    std::string getAmbulanceID() const;
-    std::string getDriverName() const;
-    std::string getRegion() const;
-    
-    void setAmbulanceID(const std::string& id);
-    void setDriverName(const std::string& driver);
-    void setRegion(const std::string& reg);
+    std::string getLicensePlate() const;
+    void setLicensePlate(const std::string& plate);
     
     void display() const;
 };

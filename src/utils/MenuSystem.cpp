@@ -1,6 +1,5 @@
 #include "MenuSystem.hpp"
 #include <iostream>
-#include <cstdlib>
 
 void MenuSystem::displayMainMenu() {
     std::cout << "\n========================================" << std::endl;
@@ -13,19 +12,5 @@ void MenuSystem::displayMainMenu() {
     std::cout << "5. Exit" << std::endl;
     std::cout << "========================================" << std::endl;
     std::cout << "Enter your choice: ";
-}
-
-void MenuSystem::clearScreen() {
-    #ifdef _WIN32
-        system("cls");
-    #else
-        system("clear");
-    #endif
-}
-
-void MenuSystem::pause() {
-    std::cout << "\nPress Enter to continue...";
-    std::cin.ignore();
-    std::cin.get();
 }
 

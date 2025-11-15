@@ -13,9 +13,8 @@ public:
     
     void run();
     void registerAmbulance();
-    void rotateShift();
-    void viewAmbulanceSchedule();
-    void viewCurrentOnDuty();
+    void rotateAmbulanceShift();
+    void showCurrentRotation();
 };
 
 #endif // AMBULANCEDISPATCHER_HPP

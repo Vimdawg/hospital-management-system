@@ -25,7 +25,6 @@ public:
     bool isFull() const;
     int getSize() const;
     void display() const;
-    void clear();
 };
 
 #endif // CIRCULARQUEUE_HPP

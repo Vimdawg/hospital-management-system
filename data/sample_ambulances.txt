@@ -1,9 +1,0 @@
-# Sample Ambulance Data
-# Format: AmbulanceID,DriverName,Region
-
-AMB001,Robert Lee,North
-AMB002,Jennifer Martinez,South
-AMB003,William Garcia,East
-AMB004,Lisa Anderson,West
-AMB005,James Taylor,Central
-

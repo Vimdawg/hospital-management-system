@@ -17,12 +17,10 @@ public:
     
     void push(const MedicalSupply& supply);
     MedicalSupply pop();
-    MedicalSupply peek() const;
     bool isEmpty() const;
     bool isFull() const;
     int getSize() const;
     void display() const;
-    void clear();
 };
 
 #endif // STACK_HPP
