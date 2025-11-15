@@ -1,0 +1,2 @@
+# Ambulances data file
+# Format: LicensePlate

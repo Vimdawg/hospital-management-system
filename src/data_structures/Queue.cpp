@@ -41,10 +41,6 @@ void Queue::enqueue(const Patient& patient) {
     rear++;
     patients[rear] = patient;
     size++;
-    
-    std::cout << "\n[SUCCESS] Patient admitted successfully!" << std::endl;
-    std::cout << "Patient " << patient.getPatientName() << " (ID: " << patient.getPatientID() 
-              << ") added to queue." << std::endl;
 }
 
 // Remove and return patient from the front of the queue (FIFO)

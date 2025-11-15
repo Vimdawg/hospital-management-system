@@ -1,11 +1,20 @@
 #include "PatientAdmissionClerk.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <limits>
 #include <string>
+#include <vector>
 
-PatientAdmissionClerk::PatientAdmissionClerk() : nextPatientID(1) {}
+PatientAdmissionClerk::PatientAdmissionClerk() : nextPatientID(1) {
+    loadCounters();
+    loadData();
+}
 
-PatientAdmissionClerk::~PatientAdmissionClerk() {}
+PatientAdmissionClerk::~PatientAdmissionClerk() {
+    saveData();
+    saveCounters();
+}
 
 void PatientAdmissionClerk::run() {
     int choice;
@@ -78,6 +87,9 @@ void PatientAdmissionClerk::admitPatient() {
     nextPatientID++;  // Increment for next patient
     
     std::cout << "Current queue size: " << patientQueue.getSize() << " patients waiting." << std::endl;
+    
+    saveData();
+    saveCounters();
 }
 
 void PatientAdmissionClerk::dischargePatient() {
@@ -103,6 +115,8 @@ void PatientAdmissionClerk::dischargePatient() {
         std::cout << "Condition: " << dischargedPatient.getConditionType() << std::endl;
         std::cout << "----------------------------------------" << std::endl;
         std::cout << "Remaining patients in queue: " << patientQueue.getSize() << std::endl;
+        
+        saveData();
     }
 }
 
@@ -112,6 +126,76 @@ void PatientAdmissionClerk::viewPatientQueue() {
     std::cout << "========================================" << std::endl;
     
     patientQueue.display();
+}
+
+void PatientAdmissionClerk::loadCounters() {
+    std::ifstream file("data/patients.txt");
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            if (line.find("# NextPatientID:") == 0) {
+                nextPatientID = std::atoi(line.substr(17).c_str());
+                break;
+            }
+        }
+        file.close();
+    }
+}
+
+void PatientAdmissionClerk::saveCounters() {
+    // Counter is saved as part of saveData()
+}
+
+void PatientAdmissionClerk::loadData() {
+    std::ifstream file("data/patients.txt");
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            // Skip comments and empty lines
+            if (line.empty() || line[0] == '#') continue;
+            
+            std::stringstream ss(line);
+            std::string token;
+            int patientID;
+            std::string patientName, nationalIC, conditionType;
+            
+            // Parse: PatientID|PatientName|NationalIC|ConditionType
+            std::getline(ss, token, '|'); 
+            patientID = std::atoi(token.c_str());
+            std::getline(ss, patientName, '|');
+            std::getline(ss, nationalIC, '|');
+            std::getline(ss, conditionType, '|');
+            
+            Patient patient(patientID, patientName, nationalIC, conditionType);
+            patientQueue.enqueue(patient);
+        }
+        file.close();
+    }
+}
+
+void PatientAdmissionClerk::saveData() {
+    std::ofstream file("data/patients.txt");
+    file << "# Patient data file" << std::endl;
+    file << "# NextPatientID: " << nextPatientID << std::endl;
+    file << "# Format: PatientID|PatientName|NationalIC|ConditionType" << std::endl;
+    
+    // Save all patients in the queue
+    Queue tempQueue;
+    while (!patientQueue.isEmpty()) {
+        Patient p = patientQueue.dequeue();
+        file << p.getPatientID() << "|"
+             << p.getPatientName() << "|"
+             << p.getNationalIC() << "|"
+             << p.getConditionType() << std::endl;
+        tempQueue.enqueue(p);
+    }
+    
+    // Restore queue
+    while (!tempQueue.isEmpty()) {
+        patientQueue.enqueue(tempQueue.dequeue());
+    }
+    
+    file.close();
 }
 
 

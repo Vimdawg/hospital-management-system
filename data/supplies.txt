@@ -1,0 +1,7 @@
+# Medical supplies data file
+# NextItemID: 4
+# NextBatchNumber: 3
+# Format: ItemID|SupplyType|Quantity|BatchNumber
+3|Mask|9|2
+2|Syringe|20|1
+1|Mask|20|1

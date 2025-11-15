@@ -7,6 +7,9 @@ class EmergencyDeptOfficer {
 private:
     PriorityQueue emergencyQueue;
     int nextCaseID;
+    
+    void loadData();
+    void saveData();
 
 public:
     EmergencyDeptOfficer();

@@ -6,6 +6,9 @@
 class AmbulanceDispatcher {
 private:
     CircularQueue ambulanceQueue;
+    
+    void loadData();
+    void saveData();
 
 public:
     AmbulanceDispatcher();

@@ -1,0 +1,3 @@
+# Emergency cases data file
+# NextCaseID: 2
+# Format: CaseID|PatientName|CaseType|PriorityLevel

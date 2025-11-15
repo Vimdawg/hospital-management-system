@@ -1,12 +1,17 @@
 #include "EmergencyDeptOfficer.hpp"
 #include <iostream>
+#include <fstream>
 #include <limits>
 #include <string>
 #include <sstream>
 
-EmergencyDeptOfficer::EmergencyDeptOfficer() : nextCaseID(1) {}
+EmergencyDeptOfficer::EmergencyDeptOfficer() : nextCaseID(1) {
+    loadData();
+}
 
-EmergencyDeptOfficer::~EmergencyDeptOfficer() {}
+EmergencyDeptOfficer::~EmergencyDeptOfficer() {
+    saveData();
+}
 
 void EmergencyDeptOfficer::run() {
     int choice;
@@ -95,6 +100,8 @@ void EmergencyDeptOfficer::logEmergencyCase() {
     nextCaseID++;  // Increment for next case
     
     std::cout << "Current queue size: " << emergencyQueue.getSize() << " emergency cases pending." << std::endl;
+    
+    saveData();
 }
 
 void EmergencyDeptOfficer::processEmergencyCase() {
@@ -130,6 +137,8 @@ void EmergencyDeptOfficer::processEmergencyCase() {
         std::cout << "Priority Category: " << priorityLabel << std::endl;
         std::cout << "========================================" << std::endl;
         std::cout << "Remaining cases in queue: " << emergencyQueue.getSize() << std::endl;
+        
+        saveData();
     }
 }
 
@@ -139,6 +148,59 @@ void EmergencyDeptOfficer::viewEmergencyCases() {
     std::cout << "========================================" << std::endl;
     
     emergencyQueue.display();
+}
+
+void EmergencyDeptOfficer::loadData() {
+    std::ifstream file("data/emergency_cases.txt");
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            if (line.find("# NextCaseID:") == 0) {
+                nextCaseID = std::atoi(line.substr(14).c_str());
+                continue;
+            }
+            if (line.empty() || line[0] == '#') continue;
+            
+            std::stringstream ss(line);
+            std::string caseID, patientName, caseType, token;
+            int priorityLevel;
+            
+            std::getline(ss, caseID, '|');
+            std::getline(ss, patientName, '|');
+            std::getline(ss, caseType, '|');
+            std::getline(ss, token, '|');
+            priorityLevel = std::atoi(token.c_str());
+            
+            EmergencyCase emergencyCase(caseID, patientName, caseType, priorityLevel);
+            emergencyQueue.insert(emergencyCase);
+        }
+        file.close();
+    }
+}
+
+void EmergencyDeptOfficer::saveData() {
+    std::ofstream file("data/emergency_cases.txt");
+    file << "# Emergency cases data file" << std::endl;
+    file << "# NextCaseID: " << nextCaseID << std::endl;
+    file << "# Format: CaseID|PatientName|CaseType|PriorityLevel" << std::endl;
+    
+    // Save all cases - extract and reinsert
+    PriorityQueue tempQueue;
+    while (!emergencyQueue.isEmpty()) {
+        EmergencyCase c = emergencyQueue.extractHighestPriority();
+        file << c.getCaseID() << "|"
+             << c.getPatientName() << "|"
+             << c.getCaseType() << "|"
+             << c.getPriorityLevel() << std::endl;
+        tempQueue.insert(c);
+    }
+    
+    // Restore queue
+    while (!tempQueue.isEmpty()) {
+        emergencyQueue.insert(tempQueue.extractHighestPriority());
+    }
+    
+    file.close();
 }
 
 

@@ -9,6 +9,9 @@ private:
     Stack supplyStack;
     int nextItemID;
     int nextBatchNumber;
+    
+    void loadData();
+    void saveData();
 
 public:
     MedicalSupplyManager();

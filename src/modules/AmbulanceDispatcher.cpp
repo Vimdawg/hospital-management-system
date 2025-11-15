@@ -1,11 +1,17 @@
 #include "AmbulanceDispatcher.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <limits>
 #include <string>
 
-AmbulanceDispatcher::AmbulanceDispatcher() {}
+AmbulanceDispatcher::AmbulanceDispatcher() {
+    loadData();
+}
 
-AmbulanceDispatcher::~AmbulanceDispatcher() {}
+AmbulanceDispatcher::~AmbulanceDispatcher() {
+    saveData();
+}
 
 void AmbulanceDispatcher::run() {
     int choice;
@@ -66,6 +72,8 @@ void AmbulanceDispatcher::registerAmbulance() {
     
     std::cout << "\n[SUCCESS] Ambulance " << licensePlate << " registered successfully!" << std::endl;
     std::cout << "Total ambulances in rotation: " << ambulanceQueue.getSize() << std::endl;
+    
+    saveData();
 }
 
 void AmbulanceDispatcher::rotateAmbulanceShift() {
@@ -91,6 +99,8 @@ void AmbulanceDispatcher::rotateAmbulanceShift() {
     
     std::cout << "\n[SUCCESS] Ambulance shift rotated successfully!" << std::endl;
     std::cout << "Total ambulances in rotation: " << ambulanceQueue.getSize() << std::endl;
+    
+    saveData();
 }
 
 void AmbulanceDispatcher::showCurrentRotation() {
@@ -111,4 +121,41 @@ void AmbulanceDispatcher::showCurrentRotation() {
     
     std::cout << "========================================" << std::endl;
     std::cout << "[TIP] Use 'Rotate Ambulance Shift' to move to next ambulance" << std::endl;
+}
+
+void AmbulanceDispatcher::loadData() {
+    std::ifstream file("data/ambulances.txt");
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            if (line.empty() || line[0] == '#') continue;
+            
+            // Each line contains just the license plate
+            Ambulance ambulance(line);
+            ambulanceQueue.enqueue(ambulance);
+        }
+        file.close();
+    }
+}
+
+void AmbulanceDispatcher::saveData() {
+    std::ofstream file("data/ambulances.txt");
+    file << "# Ambulances data file" << std::endl;
+    file << "# Format: LicensePlate" << std::endl;
+    
+    // Save all ambulances
+    CircularQueue tempQueue;
+    int count = ambulanceQueue.getSize();
+    for (int i = 0; i < count; i++) {
+        Ambulance a = ambulanceQueue.dequeue();
+        file << a.getLicensePlate() << std::endl;
+        tempQueue.enqueue(a);
+    }
+    
+    // Restore queue
+    for (int i = 0; i < count; i++) {
+        ambulanceQueue.enqueue(tempQueue.dequeue());
+    }
+    
+    file.close();
 }

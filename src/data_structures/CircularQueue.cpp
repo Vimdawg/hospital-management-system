@@ -89,11 +89,6 @@ void CircularQueue::rotate() {
     // Add to rear
     rear = (rear + 1) % capacity;
     ambulances[rear] = frontAmbulance;
-    
-    std::cout << "\n[SUCCESS] Shift rotated!" << std::endl;
-    std::cout << "Ambulance " << frontAmbulance.getLicensePlate() 
-              << " moved to end of schedule." << std::endl;
-    std::cout << "Next on duty: " << ambulances[front].getLicensePlate() << std::endl;
 }
 
 // Peek at the front ambulance without removing

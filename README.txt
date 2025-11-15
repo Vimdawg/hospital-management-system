@@ -168,6 +168,24 @@ Once the program is running, you will see a main menu with four modules:
 Follow the on-screen prompts to navigate through the system.
 
 ================================================================================
+DATA PERSISTENCE:
+================================================================================
+
+The system automatically saves and loads data from the data/ directory using
+text files. All data is preserved between program runs:
+
+- patients.txt: Patient queue data and next patient ID
+- emergency_cases.txt: Emergency cases priority queue and next case ID
+- supplies.txt: Medical supply stack data and next item/batch IDs
+- ambulances.txt: Ambulance circular queue data
+
+Data is automatically loaded when the program starts and saved when:
+- You exit any module (returns to main menu)
+- The program exits normally
+
+No manual save operation is needed!
+
+================================================================================
 PROJECT INFORMATION:
 ================================================================================
 

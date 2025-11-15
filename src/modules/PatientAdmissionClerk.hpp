@@ -7,6 +7,11 @@ class PatientAdmissionClerk {
 private:
     Queue patientQueue;
     int nextPatientID;
+    
+    void loadData();
+    void saveData();
+    void loadCounters();
+    void saveCounters();
 
 public:
     PatientAdmissionClerk();

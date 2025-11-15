@@ -1,13 +1,19 @@
 #include "MedicalSupplyManager.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <limits>
 #include <string>
 #include <map>
 #include <iomanip>
 
-MedicalSupplyManager::MedicalSupplyManager() : nextItemID(1), nextBatchNumber(1) {}
+MedicalSupplyManager::MedicalSupplyManager() : nextItemID(1), nextBatchNumber(1) {
+    loadData();
+}
 
-MedicalSupplyManager::~MedicalSupplyManager() {}
+MedicalSupplyManager::~MedicalSupplyManager() {
+    saveData();
+}
 
 void MedicalSupplyManager::run() {
     int choice;
@@ -93,6 +99,8 @@ void MedicalSupplyManager::addSupplyStock() {
     std::cout << "\n[SUCCESS] Batch #" << currentBatchNumber << " completed!" << std::endl;
     std::cout << "Total items in inventory: " << supplyStack.getSize() << std::endl;
     nextBatchNumber++;  // Increment batch number for next batch
+    
+    saveData();
 }
 
 void MedicalSupplyManager::useLastAddedSupply() {
@@ -129,6 +137,8 @@ void MedicalSupplyManager::useLastAddedSupply() {
         }
         
         std::cout << "\n[INFO] Remaining items in inventory: " << supplyStack.getSize() << std::endl;
+        
+        saveData();
     }
 }
 
@@ -181,4 +191,65 @@ void MedicalSupplyManager::viewCurrentSupply() {
         }
     }
     std::cout << "========================================" << std::endl;
+}
+
+void MedicalSupplyManager::loadData() {
+    std::ifstream file("data/supplies.txt");
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            if (line.find("# NextItemID:") == 0) {
+                nextItemID = std::atoi(line.substr(14).c_str());
+                continue;
+            }
+            if (line.find("# NextBatchNumber:") == 0) {
+                nextBatchNumber = std::atoi(line.substr(19).c_str());
+                continue;
+            }
+            if (line.empty() || line[0] == '#') continue;
+            
+            std::stringstream ss(line);
+            std::string token;
+            int itemID, quantity, batchNumber;
+            std::string supplyType;
+            
+            std::getline(ss, token, '|');
+            itemID = std::atoi(token.c_str());
+            std::getline(ss, supplyType, '|');
+            std::getline(ss, token, '|');
+            quantity = std::atoi(token.c_str());
+            std::getline(ss, token, '|');
+            batchNumber = std::atoi(token.c_str());
+            
+            MedicalSupply supply(itemID, supplyType, quantity, batchNumber);
+            supplyStack.push(supply);
+        }
+        file.close();
+    }
+}
+
+void MedicalSupplyManager::saveData() {
+    std::ofstream file("data/supplies.txt");
+    file << "# Medical supplies data file" << std::endl;
+    file << "# NextItemID: " << nextItemID << std::endl;
+    file << "# NextBatchNumber: " << nextBatchNumber << std::endl;
+    file << "# Format: ItemID|SupplyType|Quantity|BatchNumber" << std::endl;
+    
+    // Save all supplies
+    Stack tempStack;
+    while (!supplyStack.isEmpty()) {
+        MedicalSupply s = supplyStack.pop();
+        file << s.getItemID() << "|"
+             << s.getSupplyType() << "|"
+             << s.getQuantity() << "|"
+             << s.getBatchNumber() << std::endl;
+        tempStack.push(s);
+    }
+    
+    // Restore stack
+    while (!tempStack.isEmpty()) {
+        supplyStack.push(tempStack.pop());
+    }
+    
+    file.close();
 }

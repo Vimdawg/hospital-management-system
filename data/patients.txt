@@ -1,0 +1,3 @@
+# Patient data file
+# NextPatientID: 2
+# Format: PatientID|PatientName|NationalIC|ConditionType

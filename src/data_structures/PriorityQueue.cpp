@@ -52,11 +52,6 @@ void PriorityQueue::insert(const EmergencyCase& emergencyCase) {
     }
     
     insertSorted(emergencyCase);
-    
-    std::cout << "\n[SUCCESS] Emergency case logged successfully!" << std::endl;
-    std::cout << "Case: " << emergencyCase.getCaseID() 
-              << " - " << emergencyCase.getCaseType()
-              << " (Priority: " << emergencyCase.getPriorityLevel() << ") added to queue." << std::endl;
 }
 
 // Extract (remove and return) the highest priority case
