@@ -5,7 +5,7 @@
 
 class Queue {
 private:
-    static const int MAX_SIZE = 50;  // Maximum queue capacity
+    static const int MAX_SIZE = 10000;  // Maximum queue capacity
     Patient* patients;                // Dynamic array to store patients
     int front;                        // Index of front element
     int rear;                         // Index of rear element

@@ -104,7 +104,7 @@ void Queue::display() const {
     std::cout << "\n==========================================================" << std::endl;
     std::cout << "              PATIENT QUEUE STATUS" << std::endl;
     std::cout << "==========================================================" << std::endl;
-    std::cout << "Total Patients Waiting: " << size << "/" << capacity << std::endl;
+    std::cout << "Total Patients Waiting: " << size << std::endl;
     std::cout << "==========================================================" << std::endl;
     std::cout << std::left << std::setw(10) << "Position" 
               << std::setw(12) << "Patient ID" 

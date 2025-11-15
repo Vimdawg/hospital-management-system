@@ -5,7 +5,7 @@
 
 class Stack {
 private:
-    static const int MAX_SIZE = 100;  // Maximum stack capacity
+    static const int MAX_SIZE = 10000;  // Maximum stack capacity
     MedicalSupply* supplies;          // Dynamic array to store supplies
     int top;                          // Index of top element
     int capacity;                     // Maximum capacity of stack

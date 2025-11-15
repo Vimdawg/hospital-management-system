@@ -5,7 +5,7 @@
 
 class CircularQueue {
 private:
-    static const int MAX_SIZE = 20;   // Maximum circular queue capacity
+    static const int MAX_SIZE = 10000;   // Maximum circular queue capacity
     Ambulance* ambulances;            // Dynamic array to store ambulances
     int front;                        // Index of front element
     int rear;                         // Index of rear element

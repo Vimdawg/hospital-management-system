@@ -130,7 +130,7 @@ void CircularQueue::display() const {
     std::cout << "\n==========================================================" << std::endl;
     std::cout << "        AMBULANCE SHIFT SCHEDULE (CIRCULAR QUEUE)" << std::endl;
     std::cout << "==========================================================" << std::endl;
-    std::cout << "Total Ambulances: " << size << "/" << capacity << std::endl;
+    std::cout << "Total Ambulances: " << size << std::endl;
     std::cout << "==========================================================" << std::endl;
     std::cout << std::left << std::setw(10) << "Position" 
               << std::setw(20) << "License Plate" << std::endl;

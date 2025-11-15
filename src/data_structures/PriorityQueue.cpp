@@ -104,7 +104,7 @@ void PriorityQueue::display() const {
     std::cout << "\n==========================================================" << std::endl;
     std::cout << "          EMERGENCY CASES (PRIORITY ORDER)" << std::endl;
     std::cout << "==========================================================" << std::endl;
-    std::cout << "Total Emergency Cases: " << size << "/" << capacity << std::endl;
+    std::cout << "Total Emergency Cases: " << size << std::endl;
     std::cout << "==========================================================" << std::endl;
     std::cout << std::left << std::setw(10) << "Priority" 
               << std::setw(15) << "Case ID" 
@@ -113,7 +113,6 @@ void PriorityQueue::display() const {
     std::cout << "==========================================================" << std::endl;
     
     // Display cases from highest to lowest priority
-    std::cout << std::left << std::setw(10) << "HIGH ↓" << std::endl;
     for (int i = 0; i < size; i++) {
         std::string priorityLabel;
         int priority = cases[i].getPriorityLevel();

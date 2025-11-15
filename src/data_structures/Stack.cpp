@@ -74,7 +74,7 @@ void Stack::display() const {
     std::cout << "\n==========================================================" << std::endl;
     std::cout << "           MEDICAL SUPPLY INVENTORY (STACK)" << std::endl;
     std::cout << "==========================================================" << std::endl;
-    std::cout << "Total Supplies in Stack: " << getSize() << "/" << capacity << std::endl;
+    std::cout << "Total Supplies in Stack: " << getSize() << std::endl;
     std::cout << "==========================================================" << std::endl;
     std::cout << std::left << std::setw(10) << "Position" 
               << std::setw(10) << "Item ID" 

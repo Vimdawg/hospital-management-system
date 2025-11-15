@@ -5,7 +5,7 @@
 
 class PriorityQueue {
 private:
-    static const int MAX_SIZE = 50;   // Maximum priority queue capacity
+    static const int MAX_SIZE = 10000;   // Maximum priority queue capacity
     EmergencyCase* cases;             // Dynamic array to store emergency cases
     int size;                         // Current number of cases in queue
     int capacity;                     // Maximum capacity of queue
